@@ -1,0 +1,53 @@
+<?xml version="1.0" ?>
+<?xml-stylesheet type='text/xsl' href='interface.xsl'?>
+<interface uri="http://gfxmonk.net/dist/0install/0path.xml" xmlns="http://zero-install.sourceforge.net/2004/injector/interface">
+	<name>0path</name>
+	<summary>path manipulation for testing 0install packages</summary>
+	<description>
+0path is a utility for adding the path to a zero-install feed to your current
+environment, as well as the implementation's path. This is useful to experiment
+with a library without writing your own (local) feed depending upon it.
+
+This should not be used as a substitute for creating a zero-install feed with
+your dependencies declared appropriately, but can be useful for trying out a
+library without going to that effort.
+
+INSTALLATION:
+-------------
+
+Because 0path modifies environment variables, the suggested method of
+installation is to add this function to your shell's inisitalisation
+environment (e.g by adding to ~/.bashrc):
+
+    function 0path { eval `0launch 0path.xml &quot;$@&quot;` }
+
+(for zsh users, you should remove the double quotes around &quot;$@&quot;)
+
+USAGE:
+------
+
+Then the usage is simply e.g:
+
+    0path http://gfxmonk.net/dist/0install/autonose.xml PTYTHONPATH
+
+This will cache and insert the cached path for autonose in PYTHONPATH, as
+well as adding environment bindings for each library autonose depends on.
+
+You can supply optional --insert and --mode options, which mimic the behaviour
+of these attributes in a zero-install &lt;environment&gt; binding.
+
+If you just want to run it as a once-off, you can run e.g:
+
+eval `0launch 'http://gfxmonk.net/dist/0install/0path.xml' &lt;interface&gt; &lt;environment_var&gt;`
+	</description>
+	<group main="0path.py">
+		<requires interface="http://gfxmonk.net/dist/0install/bash_escape.xml">
+			<environment insert="" mode="append" name="PYTHONPATH"/>
+		</requires>
+		<implementation id="sha1new=a7c84ef86ef1fea3a6db296f6b61acdca70619cc" released="2010-12-29" version="0.0.1">
+		
+    <manifest-digest sha256="14c0d5b564ea1b96639f69c963a5b6d1cc3f96180378c290b78c098d566ea8d2"/>
+    <archive href="http://gfxmonk.net/dist/0install/0path/0path-0.0.1.tgz" size="1404"/>
+  </implementation>
+	</group>
+</interface>

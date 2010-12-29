@@ -1,0 +1,35 @@
+0path is a utility for adding the path to a zero-install feed to your current
+environment, as well as the implementation's path. This is useful to experiment
+with a library without writing your own (local) feed depending upon it.
+
+This should not be used as a substitute for creating a zero-install feed with
+your dependencies declared appropriately, but can be useful for trying out a
+library without going to that effort.
+
+INSTALLATION:
+-------------
+
+Because 0path modifies environment variables, the suggested method of
+installation is to add this function to your shell's inisitalisation
+environment (e.g by adding to ~/.bashrc):
+
+    function 0path { eval `0launch 0path.xml "$@"` }
+
+(for zsh users, you should remove the double quotes around "$@")
+
+USAGE:
+------
+
+Then the usage is simply e.g:
+
+    0path http://gfxmonk.net/dist/0install/autonose.xml PTYTHONPATH
+
+This will cache and insert the cached path for autonose in PYTHONPATH, as
+well as adding environment bindings for each library autonose depends on.
+
+You can supply optional --insert and --mode options, which mimic the behaviour
+of these attributes in a zero-install <environment> binding.
+
+If you just want to run it as a once-off, you can run e.g:
+
+eval `0launch 'http://gfxmonk.net/dist/0install/0path.xml' <interface> <environment_var>`
