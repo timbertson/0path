@@ -13,7 +13,7 @@ Because 0path modifies environment variables, the suggested method of
 installation is to add this function to your shell's inisitalisation
 environment (e.g by adding to ~/.bashrc):
 
-    function 0path { eval `0launch 0path.xml "$@"` }
+    function 0path { eval `0launch 'http://gfxmonk.net/dist/0install/0path.xml' "$@"` }
 
 (for zsh users, you should remove the double quotes around "$@")
 
@@ -26,6 +26,9 @@ Then the usage is simply e.g:
 
 This will cache and insert the cached path for autonose in PYTHONPATH, as
 well as adding environment bindings for each library autonose depends on.
+
+The result of which being that you can fire up your python interpreter and
+just type `import autonose`.
 
 You can supply optional --insert and --mode options, which mimic the behaviour
 of these attributes in a zero-install <environment> binding.

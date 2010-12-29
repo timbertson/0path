@@ -3,6 +3,7 @@
 <interface uri="http://gfxmonk.net/dist/0install/0path.xml" xmlns="http://zero-install.sourceforge.net/2004/injector/interface">
 	<name>0path</name>
 	<summary>path manipulation for testing 0install packages</summary>
+	<homepage>https://github.com/gfxmonk/0path</homepage>
 	<description>
 0path is a utility for adding the path to a zero-install feed to your current
 environment, as well as the implementation's path. This is useful to experiment
@@ -19,7 +20,7 @@ Because 0path modifies environment variables, the suggested method of
 installation is to add this function to your shell's inisitalisation
 environment (e.g by adding to ~/.bashrc):
 
-    function 0path { eval `0launch 0path.xml &quot;$@&quot;` }
+    function 0path { eval `0launch 'http://gfxmonk.net/dist/0install/0path.xml' &quot;$@&quot;` }
 
 (for zsh users, you should remove the double quotes around &quot;$@&quot;)
 
@@ -33,6 +34,9 @@ Then the usage is simply e.g:
 This will cache and insert the cached path for autonose in PYTHONPATH, as
 well as adding environment bindings for each library autonose depends on.
 
+The result of which being that you can fire up your python interpreter and
+just type `import autonose`.
+
 You can supply optional --insert and --mode options, which mimic the behaviour
 of these attributes in a zero-install &lt;environment&gt; binding.
 
@@ -45,9 +49,8 @@ eval `0launch 'http://gfxmonk.net/dist/0install/0path.xml' &lt;interface&gt; &lt
 			<environment insert="" mode="append" name="PYTHONPATH"/>
 		</requires>
 		<implementation id="sha1new=a7c84ef86ef1fea3a6db296f6b61acdca70619cc" released="2010-12-29" version="0.0.1">
-		
-    <manifest-digest sha256="14c0d5b564ea1b96639f69c963a5b6d1cc3f96180378c290b78c098d566ea8d2"/>
-    <archive href="http://gfxmonk.net/dist/0install/0path/0path-0.0.1.tgz" size="1404"/>
-  </implementation>
+			<manifest-digest sha256="14c0d5b564ea1b96639f69c963a5b6d1cc3f96180378c290b78c098d566ea8d2"/>
+			<archive href="http://gfxmonk.net/dist/0install/0path/0path-0.0.1.tgz" size="1404"/>
+		</implementation>
 	</group>
 </interface>
