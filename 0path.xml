@@ -4,6 +4,7 @@
 	<name>0path</name>
 	<summary>path manipulation for testing 0install packages</summary>
 	<homepage>https://github.com/gfxmonk/0path</homepage>
+	<publish mode="0tools" xmlns="http://gfxmonk.net/dist/0install"/>
 	<description>
 0path is a utility for adding the path to a zero-install feed to your current
 environment, as well as the implementation's path. This is useful to experiment
