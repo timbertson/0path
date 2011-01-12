@@ -30,16 +30,22 @@ USAGE:
 
 Then the usage is simply e.g:
 
+    0path http://gfxmonk.net/dist/0install/autonose.xml
+
+or, if you need to add the feed's implementation to a specific environment
+variable (rather than one it exports):
+
     0path http://gfxmonk.net/dist/0install/autonose.xml PTYTHONPATH
 
-This will cache and insert the cached path for autonose in PYTHONPATH, as
-well as adding environment bindings for each library autonose depends on.
+This will cache and insert the cached path for autonose and all dependencies
+into their appropriate environment variables.
 
 The result of which being that you can fire up your python interpreter and
 just type `import autonose`.
 
-You can supply optional --insert and --mode options, which mimic the behaviour
-of these attributes in a zero-install &lt;environment&gt; binding.
+If providing an environment variable name, you can supply optional --insert
+and --mode options, which mimic the behaviour of these attributes in a
+zero-install &lt;environment&gt; binding.
 
 If you just want to run it as a once-off, you can run e.g:
 
@@ -53,5 +59,9 @@ eval `0launch 'http://gfxmonk.net/dist/0install/0path.xml' &lt;interface&gt; &lt
 			<manifest-digest sha256="14c0d5b564ea1b96639f69c963a5b6d1cc3f96180378c290b78c098d566ea8d2"/>
 			<archive href="http://gfxmonk.net/dist/0install/0path/0path-0.0.1.tgz" size="1404"/>
 		</implementation>
+		<implementation id="sha1new=82f23955d9ec5fb3460724fae4a3c39db55adcc8" released="2011-01-12" version="0.1">
+    <manifest-digest sha256="729ba11de9bfc9abb5a483824c2359b629c9df33cc521450f3f8b94b172ef92a"/>
+    <archive href="http://gfxmonk.net/dist/0install/0path/0path-0.1.tgz" size="1597"/>
+  </implementation>
 	</group>
 </interface>

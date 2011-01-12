@@ -22,16 +22,22 @@ USAGE:
 
 Then the usage is simply e.g:
 
+    0path http://gfxmonk.net/dist/0install/autonose.xml
+
+or, if you need to add the feed's implementation to a specific environment
+variable (rather than one it exports):
+
     0path http://gfxmonk.net/dist/0install/autonose.xml PTYTHONPATH
 
-This will cache and insert the cached path for autonose in PYTHONPATH, as
-well as adding environment bindings for each library autonose depends on.
+This will cache and insert the cached path for autonose and all dependencies
+into their appropriate environment variables.
 
 The result of which being that you can fire up your python interpreter and
 just type `import autonose`.
 
-You can supply optional --insert and --mode options, which mimic the behaviour
-of these attributes in a zero-install <environment> binding.
+If providing an environment variable name, you can supply optional --insert
+and --mode options, which mimic the behaviour of these attributes in a
+zero-install <environment> binding.
 
 If you just want to run it as a once-off, you can run e.g:
 

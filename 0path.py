@@ -6,14 +6,21 @@ import sys, os
 import logging
 from StringIO import StringIO
 from contextlib import contextmanager
+from bash_escape import escape
 
 def main():
-	p = OptionParser(usage="%prog [OPTIONS] feed_or_alias path_env")
+	p = OptionParser(usage="""0path [OPTIONS] feed_or_alias [envvar]""", add_help_option=False)
 	p.add_option('--mode', type='choice', default='prepend', help='how the new path is to be inserted into the environment variable', choices=['prepend','append','replace'])
 	p.add_option('--insert', '-i', default='', help='local path (inside implementation)')
+	p.add_option('--help', '-h', action='store_true', default=False, help="you're reading it")
 
 	opts, args = p.parse_args()
-	opts.url, opts.environment = args
+
+	if opts.help:
+		raise AssertionError(p.get_usage())
+	assert len(args) in (1,2), p.get_usage()
+	opts.url = args.pop(0)
+	opts.environment = args[0] if args else None
 
 	if not "://" in opts.url:
 		url = check_output(['0alias', '-r', opts.url])
@@ -32,7 +39,8 @@ def main():
 
 	with replaced_stdout():
 		run.execute_selections(sels, args, dry_run=True)
-	insert_root_implementation(opts, sels)
+	if opts.environment:
+		insert_root_implementation(opts, sels)
 
 	# print out changes to env in a way that can be eval`d by the shell
 	summarise_env_changes(old_env)
@@ -57,12 +65,14 @@ def replaced_stdout():
 
 def summarise_env_changes(old_env):
 	new_env = os.environ.copy()
-	from bash_escape import escape
 	for k in set(old_env.keys() + new_env.keys()):
 		old = old_env.get(k, None)
 		new = new_env.get(k, None)
 		if old != new:
 			print "export %s=%s" % (k, escape(new))
+
+def puts(s):
+	print "echo %s" % (escape(s),)
 
 def insert_root_implementation(opts, selections):
 	root_impl = selections.selections[opts.url]
@@ -98,4 +108,12 @@ def _get_implementation_path(impl):
 	return impl.local_path or iface_cache.stores.lookup_any(impl.digests)
 
 if __name__ == '__main__':
-	main()
+	try:
+		main()
+	except AssertionError, e:
+		puts(e)
+		sys.exit(1)
+	except Exception, e:
+		import traceback
+		puts(traceback.format_exc())
+		sys.exit(1)
