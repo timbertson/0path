@@ -41,4 +41,4 @@ zero-install <environment> binding.
 
 If you just want to run it as a once-off, you can run e.g:
 
-eval `0launch 'http://gfxmonk.net/dist/0install/0path.xml' <interface> <environment_var>`
+eval "$(0launch 'http://gfxmonk.net/dist/0install/0path.xml' <interface> <environment_var>)"

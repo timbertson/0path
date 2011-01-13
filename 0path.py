@@ -5,8 +5,8 @@ import subprocess
 import sys, os
 import logging
 from StringIO import StringIO
-from contextlib import contextmanager
 from bash_escape import escape
+from zeroinstall.injector import qdom, run, selections
 
 def main():
 	p = OptionParser(usage="""0path [OPTIONS] feed_or_alias [envvar]""", add_help_option=False)
@@ -30,19 +30,32 @@ def main():
 	selections_string = check_output(['0launch', '-c', '--get-selections', opts.url])
 
 	# resolve selections and download all (transitively) required implementations
-	from zeroinstall.injector import qdom, run, selections
 	sels = selections.Selections(qdom.parse(StringIO(selections_string)))
 	download_missing_selections(sels)
+	sels = sels.selections
 
 	# copy the previous env
 	old_env = os.environ.copy()
-	with replaced_stdout():
-		run.execute_selections(sels, args, dry_run=True)
+	apply_environment_bindings(sels)
 	if opts.environment:
 		insert_root_implementation(opts, sels)
 
 	# print out changes to env in a way that can be eval'd by the shell
 	summarise_env_changes(old_env)
+
+def apply_environment_bindings(sels):
+	for selection in sels.values():
+		_do_bindings(selection, selection.bindings)
+		for dep in selection.dependencies:
+			dep_impl = sels[dep.interface]
+			if not dep_impl.id.startswith('package:'):
+				_do_bindings(dep_impl, dep.bindings)
+
+from zeroinstall.injector.model import EnvironmentBinding
+def _do_bindings(impl, bindings):
+	for b in bindings:
+		if isinstance(b, EnvironmentBinding):
+			run.do_env_binding(b, _get_implementation_path(impl))
 
 def check_output(cmd, *a, **kw):
 	p = subprocess.Popen(cmd, *a, stdout=subprocess.PIPE, **kw)
@@ -51,16 +64,6 @@ def check_output(cmd, *a, **kw):
 		print out
 		raise RuntimeError("command failed with returncode %d: %r" % (p.returncode, cmd))
 	return out
-
-@contextmanager
-def replaced_stdout():
-	old_stdout = sys.stdout
-	new_stdout = StringIO()
-	sys.stdout = new_stdout
-	try:
-		yield
-	finally:
-		sys.stdout = old_stdout
 
 def summarise_env_changes(old_env):
 	new_env = os.environ.copy()
@@ -74,7 +77,7 @@ def puts(s):
 	print "echo -n %s" % (escape(s),)
 
 def insert_root_implementation(opts, selections):
-	root_impl = selections.selections[opts.url]
+	root_impl = selections[opts.url]
 	path = _get_implementation_path(root_impl)
 	if opts.insert:
 		path = os.path.join((path, opts.insert))
