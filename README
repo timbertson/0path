@@ -13,7 +13,7 @@ Because 0path modifies environment variables, the suggested method of
 installation is to add this function to your shell's inisitalisation
 environment (e.g by adding to ~/.bashrc):
 
-    function 0path { eval `0launch 'http://gfxmonk.net/dist/0install/0path.xml' "$@"` }
+    function 0path { eval "$(0launch 'http://gfxmonk.net/dist/0install/0path.xml' "$@")" }
 
 (for zsh users, you should remove the double quotes around "$@")
 

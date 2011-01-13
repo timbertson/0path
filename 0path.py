@@ -27,7 +27,7 @@ def main():
 		opts.url = url.strip()
 
 	# get selections doc:
-	selections_string = check_output(['0launch', '--get-selections', opts.url])
+	selections_string = check_output(['0launch', '-c', '--get-selections', opts.url])
 
 	# resolve selections and download all (transitively) required implementations
 	from zeroinstall.injector import qdom, run, selections
@@ -36,13 +36,11 @@ def main():
 
 	# copy the previous env
 	old_env = os.environ.copy()
-
-	with replaced_stdout():
-		run.execute_selections(sels, args, dry_run=True)
+	apply_environment_bindings(sels.selections)
 	if opts.environment:
 		insert_root_implementation(opts, sels)
 
-	# print out changes to env in a way that can be eval`d by the shell
+	# print out changes to env in a way that can be eval'd by the shell
 	summarise_env_changes(old_env)
 
 def check_output(cmd, *a, **kw):
@@ -72,7 +70,7 @@ def summarise_env_changes(old_env):
 			print "export %s=%s" % (k, escape(new))
 
 def puts(s):
-	print "echo %s" % (escape(s),)
+	print "echo -n %s" % (escape(s),)
 
 def insert_root_implementation(opts, selections):
 	root_impl = selections.selections[opts.url]
