@@ -21,7 +21,7 @@ Because 0path modifies environment variables, the suggested method of
 installation is to add this function to your shell's inisitalisation
 environment (e.g by adding to ~/.bashrc):
 
-    function 0path { eval `0launch 'http://gfxmonk.net/dist/0install/0path.xml' &quot;$@&quot;` }
+    function 0path { eval &quot;$(0launch 'http://gfxmonk.net/dist/0install/0path.xml' &quot;$@&quot;)&quot; }
 
 (for zsh users, you should remove the double quotes around &quot;$@&quot;)
 
@@ -60,8 +60,12 @@ eval `0launch 'http://gfxmonk.net/dist/0install/0path.xml' &lt;interface&gt; &lt
 			<archive href="http://gfxmonk.net/dist/0install/0path/0path-0.0.1.tgz" size="1404"/>
 		</implementation>
 		<implementation id="sha1new=82f23955d9ec5fb3460724fae4a3c39db55adcc8" released="2011-01-12" version="0.1">
-    <manifest-digest sha256="729ba11de9bfc9abb5a483824c2359b629c9df33cc521450f3f8b94b172ef92a"/>
-    <archive href="http://gfxmonk.net/dist/0install/0path/0path-0.1.tgz" size="1597"/>
+			<manifest-digest sha256="729ba11de9bfc9abb5a483824c2359b629c9df33cc521450f3f8b94b172ef92a"/>
+			<archive href="http://gfxmonk.net/dist/0install/0path/0path-0.1.tgz" size="1597"/>
+		</implementation>
+		<implementation id="sha1new=720675d3a627b70b3d1c81419eb602083bbec5c1" released="2011-01-13" version="0.1.1">
+    <manifest-digest sha256="452a139b4d5dd142e3d76ad035f963c824dda0fbb41e424230e757e1086191b4"/>
+    <archive href="http://gfxmonk.net/dist/0install/0path/0path-0.1.1.tgz" size="1602"/>
   </implementation>
 	</group>
 </interface>

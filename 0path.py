@@ -36,7 +36,8 @@ def main():
 
 	# copy the previous env
 	old_env = os.environ.copy()
-	apply_environment_bindings(sels.selections)
+	with replaced_stdout():
+		run.execute_selections(sels, args, dry_run=True)
 	if opts.environment:
 		insert_root_implementation(opts, sels)
 
