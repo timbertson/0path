@@ -74,7 +74,7 @@ def summarise_env_changes(old_env):
 			print "export %s=%s" % (k, escape(new))
 
 def puts(s):
-	print "echo -n %s" % (escape(s),)
+	print >> sys.stderr, s
 
 def insert_root_implementation(opts, selections):
 	root_impl = selections[opts.url]
