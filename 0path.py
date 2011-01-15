@@ -22,9 +22,12 @@ def main():
 	opts.url = args.pop(0)
 	opts.environment = args[0] if args else None
 
-	if not "://" in opts.url:
-		url = check_output(['0alias', '-r', opts.url])
-		opts.url = url.strip()
+	if not ("://" in opts.url or opts.url.endswith(".xml")):
+		try:
+			url = check_output(['0alias', '-r', opts.url])
+			opts.url = url.strip()
+		except CommandError, e:
+			puts("warn: %s" % (e,))
 
 	# get selections doc:
 	selections_string = check_output(['0launch', '-c', '--get-selections', opts.url])
@@ -57,12 +60,13 @@ def _do_bindings(impl, bindings):
 		if isinstance(b, EnvironmentBinding):
 			run.do_env_binding(b, _get_implementation_path(impl))
 
+class CommandError(RuntimeError): pass
 def check_output(cmd, *a, **kw):
 	p = subprocess.Popen(cmd, *a, stdout=subprocess.PIPE, **kw)
 	out, _ = p.communicate()
 	if p.returncode != 0:
 		print out
-		raise RuntimeError("command failed with returncode %d: %r" % (p.returncode, cmd))
+		raise CommandError("command failed with returncode %d: %r" % (p.returncode, cmd))
 	return out
 
 def summarise_env_changes(old_env):
