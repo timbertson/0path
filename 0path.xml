@@ -55,8 +55,8 @@ eval &quot;$(0launch 'http://gfxmonk.net/dist/0install/0path.xml' &lt;interface&
 		<requires interface="http://gfxmonk.net/dist/0install/bash_escape.xml"/>
 		<requires interface="http://0install.net/2007/interfaces/ZeroInstall.xml">
 			<!-- 0.51 and later prohibits getting selections without a main command
-			     (this should be fixed in a future version, at which time we can
-			     change this to a [not-before="..."]) -->
+				(this should be fixed in a future version, at which time we can
+				change this to a [not-before="..."]) -->
 			<version before="0.51"/>
 			<environment insert="" mode="prepend" name="PATH"/>
 			<environment insert="" mode="prepend" name="PYTHONPATH"/>
@@ -78,8 +78,20 @@ eval &quot;$(0launch 'http://gfxmonk.net/dist/0install/0path.xml' &lt;interface&
 			<archive href="http://gfxmonk.net/dist/0install/0path/0path-0.1.2.tgz" size="1674"/>
 		</implementation>
 		<implementation id="sha1new=94906db7332e503f9d47a6aaf3bc78da7566bf42" released="2011-01-15" version="0.1.3">
-    <manifest-digest sha256="979289bf3c6e5c989fcdfd081e2d9e8fe168b0632770d31ad7f48b96293c4703"/>
-    <archive href="http://gfxmonk.net/dist/0install/0path/0path-0.1.3.tgz" size="1733"/>
-  </implementation>
+			<manifest-digest sha256="979289bf3c6e5c989fcdfd081e2d9e8fe168b0632770d31ad7f48b96293c4703"/>
+			<archive href="http://gfxmonk.net/dist/0install/0path/0path-0.1.3.tgz" size="1733"/>
+		</implementation>
+	</group>
+	<group main="0path.py">
+		<requires interface="http://gfxmonk.net/dist/0install/bash_escape.xml"/>
+		<requires interface="http://0install.net/2007/interfaces/ZeroInstall.xml">
+			<version not-before="0.52"/>
+			<environment insert="" mode="prepend" name="PATH"/>
+			<environment insert="" mode="prepend" name="PYTHONPATH"/>
+		</requires>
+		<implementation id="sha1new=a98cd2a96de0c3bbd17b1e57bae50c33ac20d847" released="2011-01-22" version="0.1.4">
+			<manifest-digest sha256="097df1500cfe19369130a2955587fb626fd4591a0c6afb651fe8e040c051e458"/>
+			<archive href="http://gfxmonk.net/dist/0install/0path/0path-0.1.4.tgz" size="1742"/>
+		</implementation>
 	</group>
 </interface>
