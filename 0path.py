@@ -30,7 +30,7 @@ def main():
 			puts("warn: %s" % (e,))
 
 	# get selections doc:
-	selections_string = check_output(['0install', 'select', '--console', '--xml', '--comand=', opts.url])
+	selections_string = check_output(['0install', 'select', '--console', '--xml', '--command=', opts.url])
 
 	# resolve selections and download all (transitively) required implementations
 	sels = selections.Selections(qdom.parse(StringIO(selections_string)))

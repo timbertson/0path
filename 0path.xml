@@ -89,9 +89,13 @@ eval &quot;$(0launch 'http://gfxmonk.net/dist/0install/0path.xml' &lt;interface&
 			<environment insert="" mode="prepend" name="PATH"/>
 			<environment insert="" mode="prepend" name="PYTHONPATH"/>
 		</requires>
-		<implementation id="sha1new=a98cd2a96de0c3bbd17b1e57bae50c33ac20d847" released="2011-01-22" version="0.1.4">
+		<implementation id="sha1new=a98cd2a96de0c3bbd17b1e57bae50c33ac20d847" released="2011-01-22" stability="buggy" version="0.1.4">
 			<manifest-digest sha256="097df1500cfe19369130a2955587fb626fd4591a0c6afb651fe8e040c051e458"/>
 			<archive href="http://gfxmonk.net/dist/0install/0path/0path-0.1.4.tgz" size="1742"/>
 		</implementation>
+		<implementation id="sha1new=40ae5a7a6dde48f8d65a432bcb38b8136a33d813" released="2011-01-30" version="0.1.5">
+    <manifest-digest sha256="d3e29b7708d7ecca29790cf7b5a47dfba5fa47c853603159e12aa0222bb28f88"/>
+    <archive href="http://gfxmonk.net/dist/0install/0path/0path-0.1.5.tgz" size="1739"/>
+  </implementation>
 	</group>
 </interface>
