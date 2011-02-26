@@ -1,10 +1,10 @@
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
 <?xml-stylesheet type='text/xsl' href='interface.xsl'?>
-<interface uri="http://gfxmonk.net/dist/0install/0path.xml" xmlns="http://zero-install.sourceforge.net/2004/injector/interface">
+<interface xmlns="http://zero-install.sourceforge.net/2004/injector/interface" uri="http://gfxmonk.net/dist/0install/0path.xml">
 	<name>0path</name>
 	<summary>path manipulation for testing 0install packages</summary>
 	<homepage>https://github.com/gfxmonk/0path</homepage>
-	<publish mode="0tools" xmlns="http://gfxmonk.net/dist/0install"/>
+	<publish xmlns="http://gfxmonk.net/dist/0install" mode="0tools"/>
 	<description>
 0path is a utility for adding the path to a zero-install feed to your current
 environment, as well as the implementation's path. This is useful to experiment
@@ -21,9 +21,9 @@ Because 0path modifies environment variables, the suggested method of
 installation is to add this function to your shell's inisitalisation
 environment (e.g by adding to ~/.bashrc):
 
-    function 0path { eval &quot;$(0launch 'http://gfxmonk.net/dist/0install/0path.xml' &quot;$@&quot;)&quot; }
+    function 0path { eval "$(0launch 'http://gfxmonk.net/dist/0install/0path.xml' "$@")" }
 
-(for zsh users, you should remove the double quotes around &quot;$@&quot;)
+(for zsh users, you should remove the double quotes around "$@")
 
 USAGE:
 ------
@@ -49,7 +49,7 @@ zero-install &lt;environment&gt; binding.
 
 If you just want to run it as a once-off, you can run e.g:
 
-eval &quot;$(0launch 'http://gfxmonk.net/dist/0install/0path.xml' &lt;interface&gt; &lt;environment_var&gt;)&quot;
+eval "$(0launch 'http://gfxmonk.net/dist/0install/0path.xml' &lt;interface&gt; &lt;environment_var&gt;)"
 	</description>
 	<group main="0path.py">
 		<requires interface="http://gfxmonk.net/dist/0install/bash_escape.xml"/>
@@ -94,8 +94,12 @@ eval &quot;$(0launch 'http://gfxmonk.net/dist/0install/0path.xml' &lt;interface&
 			<archive href="http://gfxmonk.net/dist/0install/0path/0path-0.1.4.tgz" size="1742"/>
 		</implementation>
 		<implementation id="sha1new=40ae5a7a6dde48f8d65a432bcb38b8136a33d813" released="2011-01-30" version="0.1.5">
-    <manifest-digest sha256="d3e29b7708d7ecca29790cf7b5a47dfba5fa47c853603159e12aa0222bb28f88"/>
-    <archive href="http://gfxmonk.net/dist/0install/0path/0path-0.1.5.tgz" size="1739"/>
-  </implementation>
+			<manifest-digest sha256="d3e29b7708d7ecca29790cf7b5a47dfba5fa47c853603159e12aa0222bb28f88"/>
+			<archive href="http://gfxmonk.net/dist/0install/0path/0path-0.1.5.tgz" size="1739"/>
+		</implementation>
+		<implementation id="sha1new=8f3ec65775957304aa8305a3cb5445a3f9eb981d" released="2011-02-27" version="0.2">
+			<manifest-digest sha256="cd0ded4f46bb05e7be159bce848420ce0e8332b6363d16e2f2c6641fabb7b69b"/>
+			<archive href="http://gfxmonk.net/dist/0install/0path/0path-0.2.tgz" size="2469"/>
+		</implementation>
 	</group>
 </interface>
