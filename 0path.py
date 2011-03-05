@@ -8,9 +8,13 @@ from StringIO import StringIO
 from bash_escape import escape
 from zeroinstall.injector import qdom, run, selections
 
-VERBOSE = True
+VERBOSE = None
 def verbose(s):
-	if VERBOSE:
+	if VERBOSE is True:
+		puts(s)
+
+def info(s):
+	if VERBOSE is not False:
 		puts(s)
 
 SELF_URL = 'http://gfxmonk.net/dist/0install/0path.xml'
@@ -21,8 +25,10 @@ def main():
 	p.add_option('--mode', type='choice', default='prepend', help='how the new path is to be inserted into the environment variable', choices=['prepend','append','replace'])
 	p.add_option('--insert', '-i', default='', help='local path (inside implementation)')
 	p.add_option('--undo', '-u', action='store_true', help='undo any changes already made by 0path')
+	p.add_option('--keep', action='store_true', default=False, help='keep existing 0path bindings (used to add multiple feeds to ENV; but can result in duplicates)')
 	p.add_option('--command', '-c', default=None, help='add command-specific bindings')
-	p.add_option('--quiet', '-q', action='store_false', dest='verbose', default=True, help='add command-specific bindings')
+	p.add_option('--quiet', '-q', action='store_false', dest='verbose', default=None, help='supress all output')
+	p.add_option('--verbose', '-v', action='store_true', dest='verbose', help='show individual path modifications')
 	p.add_option('--help', '-h', action='store_true', default=False, help="you're reading it")
 
 	opts, args = p.parse_args()
@@ -30,10 +36,9 @@ def main():
 	if opts.help:
 		raise AssertionError(p.get_usage())
 
-	# copy the previous env
-	old_env = os.environ.copy()
-
 	if opts.undo:
+		# copy the previous env
+		old_env = os.environ.copy()
 		self_sels = get_sels(SELF_URL)
 		revert_env(os.environ, self_sels)
 		with_env_changes(old_env, summarise_var)
@@ -56,7 +61,10 @@ def main():
 	sels = get_sels(opts.url, command)
 	self_sels = get_sels(SELF_URL)
 
-	revert_env(os.environ, self_sels)
+	if not opts.keep:
+		revert_env(os.environ, self_sels)
+
+	old_env = os.environ.copy()
 	apply_environment_bindings(sels)
 	if opts.environment:
 		insert_root_implementation(opts, sels)
@@ -81,15 +89,13 @@ ORIG_PREFIX = '_0find_'
 def original_name(name):
 	return ORIG_PREFIX + name
 
-def original_env(env, name):
-	return original_env.get(original_name(name), original_env.get(original_name, None))
-
 def revert_env(env, self_sels):
 	for k, v in list(env.items()):
 		if k.startswith(ORIG_PREFIX):
 			envname = k[len(ORIG_PREFIX):]
 			env[envname] = v
 			del env[k]
+			verbose("reverted $%s to old value (%s)" % (envname, v))
 
 	def remove_item_from_env(key, path):
 		values = env.get(key, None)
@@ -101,7 +107,7 @@ def revert_env(env, self_sels):
 				try:
 					values.remove(os.path.join(path, ''))
 				except ValueError:
-					verbose("warning: path %s not found in envvar %s" % (path, key))
+					verbose("warning: can't remove path component %s from $%s" % (path, key))
 			env[key] = os.pathsep.join(filter(None, values))
 
 	def _remove_bindings(impl, bindings):
@@ -116,7 +122,6 @@ def revert_env(env, self_sels):
 			if not dep_impl.id.startswith('package:'):
 				_remove_bindings(dep_impl, dep.bindings)
 
-
 def apply_environment_bindings(sels):
 	for selection in sels.values():
 		_do_bindings(selection, selection.bindings)
@@ -129,7 +134,9 @@ from zeroinstall.injector.model import EnvironmentBinding
 def _do_bindings(impl, bindings):
 	for b in bindings:
 		if isinstance(b, EnvironmentBinding):
-			run.do_env_binding(b, _get_implementation_path(impl))
+			path = _get_implementation_path(impl)
+			run.do_env_binding(b, path)
+			verbose("[%s] %sed $%s with %s" % (impl.interface, b.mode, b.name, os.path.join(path, b.insert or "")))
 
 class CommandError(RuntimeError): pass
 def check_output(cmd, *a, **kw):
@@ -153,11 +160,12 @@ def backup_original_values(key, old, new):
 		return
 	backup_key = (ORIG_PREFIX + key)
 	if backup_key not in os.environ:
+		verbose("saving originval value of $%s (%s) in $%s" % (key, old or '', backup_key))
 		os.environ[backup_key] = old or ''
 
 def summarise_var(key, old, new):
 	if not key.startswith(ORIG_PREFIX):
-		verbose("Modifying: %s" % (key,))
+		info("Modifying: %s" % (key,))
 	if new is None:
 		print "unset %s" % (key,)
 	else:
