@@ -93,7 +93,10 @@ def revert_env(env, self_sels):
 	for k, v in list(env.items()):
 		if k.startswith(ORIG_PREFIX):
 			envname = k[len(ORIG_PREFIX):]
-			env[envname] = v
+			if v:
+				env[envname] = v
+			else:
+				del env[envname]
 			del env[k]
 			verbose("reverted $%s to old value (%s)" % (envname, v))
 
@@ -136,7 +139,7 @@ def _do_bindings(impl, bindings):
 		if isinstance(b, EnvironmentBinding):
 			path = _get_implementation_path(impl)
 			run.do_env_binding(b, path)
-			verbose("[%s] %sed $%s with %s" % (impl.interface, b.mode, b.name, os.path.join(path, b.insert or "")))
+			verbose("[%s] %sed $%s with %s" % (impl.interface, b.mode, b.name, b.value or os.path.join(path, b.insert or "")))
 
 class CommandError(RuntimeError): pass
 def check_output(cmd, *a, **kw):
