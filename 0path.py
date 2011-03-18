@@ -197,15 +197,14 @@ def insert_root_implementation(opts, selections):
 
 from zeroinstall.injector.iface_cache import iface_cache
 def download_missing_selections(sels):
-	from zeroinstall.injector import fetch
-	from zeroinstall.injector.handler import Handler
+	from zeroinstall.support import tasks
+	from zeroinstall.injector.config import load_config
 
-	handler = Handler(dry_run = True)
-	fetcher = fetch.Fetcher(handler)
-	blocker = sels.download_missing(iface_cache, fetcher)
+	config = load_config()
+	blocker = sels.download_missing(config)
 	if blocker:
 		logging.info("Waiting for selected implementations to be downloaded...")
-		handler.wait_for_blocker(blocker)
+		tasks.wait_for_blocker(blocker)
 
 def _get_implementation_path(impl):
 	return impl.local_path or iface_cache.stores.lookup_any(impl.digests)

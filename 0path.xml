@@ -54,9 +54,7 @@ eval "$(0launch 'http://gfxmonk.net/dist/0install/0path.xml' &lt;interface&gt; &
 	<group main="0path.py">
 		<requires interface="http://gfxmonk.net/dist/0install/bash_escape.xml"/>
 		<requires interface="http://0install.net/2007/interfaces/ZeroInstall.xml">
-			<!-- 0.51 and later prohibits getting selections without a main command
-				(this should be fixed in a future version, at which time we can
-				change this to a [not-before="..."]) -->
+			<!-- pre-0.51 -->
 			<version before="0.51"/>
 			<environment insert="" mode="prepend" name="PATH"/>
 			<environment insert="" mode="prepend" name="PYTHONPATH"/>
@@ -83,9 +81,10 @@ eval "$(0launch 'http://gfxmonk.net/dist/0install/0path.xml' &lt;interface&gt; &
 		</implementation>
 	</group>
 	<group main="0path.py">
+		<!-- 0.52-compatible versions -->
 		<requires interface="http://gfxmonk.net/dist/0install/bash_escape.xml"/>
 		<requires interface="http://0install.net/2007/interfaces/ZeroInstall.xml">
-			<version not-before="0.52"/>
+			<version before="0.53" not-before="0.52"/>
 			<environment insert="" mode="prepend" name="PATH"/>
 			<environment insert="" mode="prepend" name="PYTHONPATH"/>
 		</requires>
@@ -104,6 +103,19 @@ eval "$(0launch 'http://gfxmonk.net/dist/0install/0path.xml' &lt;interface&gt; &
 		<implementation id="sha1new=ea60ed0a5377d024b9645d151b1ba470157b2387" released="2011-03-05" version="0.2.1">
 			<manifest-digest sha256="498081ab150b3ecc7905a061da552ba57ae3ba6ef0fde7328b2a8c36a0354d14"/>
 			<archive href="http://gfxmonk.net/dist/0install/0path/0path-0.2.1.tgz" size="2671"/>
+		</implementation>
+	</group>
+	<group main="0path.py">
+		<!-- 0.53+ compatible versions -->
+		<requires interface="http://gfxmonk.net/dist/0install/bash_escape.xml"/>
+		<requires interface="http://0install.net/2007/interfaces/ZeroInstall.xml">
+			<version not-before="0.53"/>
+			<environment insert="" mode="prepend" name="PATH"/>
+			<environment insert="" mode="prepend" name="PYTHONPATH"/>
+		</requires>
+		<implementation id="sha1new=8fba686a00e3684e950b59ac94846951573cfd24" released="2011-03-18" version="0.2.2">
+			<manifest-digest sha256="35b9eef049492dc5260afe2a4614b2aa45af7da0cf060b52951c64119811de59"/>
+			<archive href="http://gfxmonk.net/dist/0install/0path/0path-0.2.2.tgz" size="2668"/>
 		</implementation>
 	</group>
 </interface>
