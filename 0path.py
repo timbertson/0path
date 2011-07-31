@@ -21,7 +21,7 @@ SELF_URL = 'http://gfxmonk.net/dist/0install/0path.xml'
 
 def main():
 	global VERBOSE
-	p = OptionParser(usage="""0path [OPTIONS] feed_or_alias [envvar]""", add_help_option=False)
+	p = OptionParser(usage="""0path [OPTIONS] feed_or_alias [envvar]""")
 	p.add_option('--mode', type='choice', default='prepend', help='how the new path is to be inserted into the environment variable', choices=['prepend','append','replace'])
 	p.add_option('--insert', '-i', default='', help='local path (inside implementation)')
 	p.add_option('--undo', '-u', action='store_true', help='undo any changes already made by 0path')
@@ -29,12 +29,8 @@ def main():
 	p.add_option('--command', '-c', default=None, help='add command-specific bindings')
 	p.add_option('--quiet', '-q', action='store_false', dest='verbose', default=None, help='supress all output')
 	p.add_option('--verbose', '-v', action='store_true', dest='verbose', help='show individual path modifications')
-	p.add_option('--help', '-h', action='store_true', default=False, help="you're reading it")
 
 	opts, args = p.parse_args()
-
-	if opts.help:
-		raise AssertionError(p.get_usage())
 
 	if opts.undo:
 		# copy the previous env
@@ -96,7 +92,8 @@ def revert_env(env, self_sels):
 			if v:
 				env[envname] = v
 			else:
-				del env[envname]
+				try: del env[envname]
+				except KeyError: pass # already deleted
 			del env[k]
 			verbose("reverted $%s to old value (%s)" % (envname, v))
 
