@@ -30,6 +30,9 @@ def main():
 	p.add_option('--quiet', '-q', action='store_false', dest='verbose', default=None, help='supress all output')
 	p.add_option('--verbose', '-v', action='store_true', dest='verbose', help='show individual path modifications')
 
+	def print_help_to_stderr(*a, **k):
+		print >> sys.stderr, (p.format_help())
+	p.print_help = print_help_to_stderr
 	opts, args = p.parse_args()
 
 	if opts.undo:
