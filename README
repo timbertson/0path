@@ -1,6 +1,6 @@
-0path is a utility for adding the path to a zero-install feed to your current
-environment, as well as the implementation's path. This is useful to experiment
-with a library without writing your own (local) feed depending upon it.
+0path is a utility for making the contents of a zero install feed
+(including its dependencies) active in your current shell session,
+as if the library or application were installed globally.
 
 This should not be used as a substitute for creating a zero-install feed with
 your dependencies declared appropriately, but can be useful for trying out a
@@ -22,23 +22,28 @@ USAGE:
 
 Then the usage is simply e.g:
 
-    0path http://gfxmonk.net/dist/0install/autonose.xml
+    0path http://gfxmonk.net/dist/0install/mocktest.xml
 
-or, if you need to add the feed's implementation to a specific environment
+This will make the `mocktest` python library available to all programs
+run from within the current shell session. For example, you can now
+run a python shell and `import mocktest`.
+
+ADVANCED USAGE:
+---------------
+
+If you need to add the feed's implementation to a specific environment
 variable (rather than one it exports):
 
-    0path http://gfxmonk.net/dist/0install/autonose.xml PTYTHONPATH
+    0path http://gfxmonk.net/dist/0install/mocktest.xml PYTHONPATH
 
-This will cache and insert the cached path for autonose and all dependencies
-into their appropriate environment variables.
-
-The result of which being that you can fire up your python interpreter and
-just type `import autonose`.
+This will insert mocktest's base path into your $PYTHONPATH environment
+variable.
 
 If providing an environment variable name, you can supply optional --insert
 and --mode options, which mimic the behaviour of these attributes in a
 zero-install <environment> binding.
 
-If you just want to run it as a once-off, you can run e.g:
+If you just want to run it as a once-off without installing it into
+your shell, you can run e.g:
 
-eval "$(0launch 'http://gfxmonk.net/dist/0install/0path.xml' <interface> <environment_var>)"
+eval "$(0launch 'http://gfxmonk.net/dist/0install/0path.xml' <feed-uri>)"
