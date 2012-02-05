@@ -21,7 +21,7 @@ Because 0path modifies environment variables, the suggested method of
 installation is to add this function to your shell's inisitalisation
 environment (e.g by adding to ~/.bashrc):
 
-    function 0path { eval "$(0launch 'http://gfxmonk.net/dist/0install/0path.xml' "$@")" }
+    function 0path { eval "$(0launch 'http://gfxmonk.net/dist/0install/0path.xml' "$@")"; }
 
 (for zsh users, you should remove the double quotes around "$@")
 
@@ -133,6 +133,10 @@ eval "$(0launch 'http://gfxmonk.net/dist/0install/0path.xml' &lt;feed-uri&gt;)"
 		<implementation id="sha1new=6f68e95cc47b221453a794bf6fdf7e2cdc9a2545" released="2012-02-04" version="0.2.5">
 			<manifest-digest sha256="1513c9a0ee1eeb9aa7557e40ee7c255f9cc556dff9f54b9d862b7e37ae7c5e07"/>
 			<archive href="http://gfxmonk.net/dist/0install/0path/0path-0.2.5.tgz" size="2814"/>
+		</implementation>
+		<implementation id="sha1new=98c91bb9ce91a5db71ebfcae06174e7195028580" released="2012-02-05" version="0.2.6">
+			<manifest-digest sha256="c625a8a4370b2cc46219c75b920318fdcb1f3b98ea786c59b439c4d76aadf067"/>
+			<archive href="http://gfxmonk.net/dist/0install/0path/0path-0.2.6.tgz" size="2814"/>
 		</implementation>
 	</group>
 </interface>
