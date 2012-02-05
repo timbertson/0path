@@ -68,7 +68,7 @@ def main():
 	if opts.environment:
 		insert_root_implementation(opts, sels)
 	
-	# backup all original values, for use next time we run 0find
+	# backup all original values, for use next time we run 0path
 	with_env_changes(old_env, backup_original_values)
 
 	# print out changes to env in a way that can be eval'd by the shell
@@ -84,7 +84,7 @@ def get_sels(url, command=''):
 	sels = sels.selections
 	return sels
 
-ORIG_PREFIX = '_0find_'
+ORIG_PREFIX = '_0path_'
 def original_name(name):
 	return ORIG_PREFIX + name
 
