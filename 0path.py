@@ -2,7 +2,7 @@
 
 from optparse import OptionParser
 import subprocess
-import sys, os
+import sys, os, subprocess
 import logging
 from StringIO import StringIO
 from bash_escape import escape
@@ -29,6 +29,8 @@ def main():
 	p.add_option('--command', '-c', default=None, help='add command-specific bindings')
 	p.add_option('--quiet', '-q', action='store_false', dest='verbose', default=None, help='supress all output')
 	p.add_option('--verbose', '-v', action='store_true', dest='verbose', help='show individual path modifications')
+	p.add_option('--shell', '-s', action='store_true', help='spawn a shell, instead of printing exports')
+	p.add_option('--exec', '-x', dest='execute', help='(implies --shell) run CMD instead of $SHELL', metavar='CMD')
 
 	def print_help_to_stderr(*a, **k):
 		print >> sys.stderr, (p.format_help())
@@ -71,8 +73,11 @@ def main():
 	# backup all original values, for use next time we run 0path
 	with_env_changes(old_env, backup_original_values)
 
-	# print out changes to env in a way that can be eval'd by the shell
-	with_env_changes(old_env, summarise_var)
+	if opts.shell or opts.execute is not None:
+		return run_shell(opts.execute or os.environ.get('SHELL', 'bash'))
+	else:
+		# print out changes to env in a way that can be eval'd by the shell
+		with_env_changes(old_env, summarise_var)
 
 def get_sels(url, command=''):
 	# get selections doc:
@@ -166,6 +171,9 @@ def backup_original_values(key, old, new):
 		verbose("saving originval value of $%s (%s) in $%s" % (key, old or '', backup_key))
 		os.environ[backup_key] = old or ''
 
+def run_shell(sh):
+	return subprocess.call(sh, shell=True)
+
 def summarise_var(key, old, new):
 	if not key.startswith(ORIG_PREFIX):
 		info("Modifying: %s" % (key,))
@@ -211,7 +219,7 @@ def _get_implementation_path(impl):
 
 if __name__ == '__main__':
 	try:
-		main()
+		sys.exit(main())
 	except AssertionError, e:
 		puts(e)
 		sys.exit(1)
