@@ -134,8 +134,8 @@ def apply_environment_bindings(sels):
 	for selection in sels.values():
 		_do_bindings(selection, selection.bindings)
 		for dep in selection.dependencies:
-			dep_impl = sels[dep.interface]
-			if not dep_impl.id.startswith('package:'):
+			dep_impl = sels.get(dep.interface, None)
+			if dep_impl and not dep_impl.id.startswith('package:'):
 				_do_bindings(dep_impl, dep.bindings)
 
 from zeroinstall.injector.model import EnvironmentBinding
