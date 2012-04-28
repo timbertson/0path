@@ -146,5 +146,9 @@ eval "$(0launch 'http://gfxmonk.net/dist/0install/0path.xml' &lt;feed-uri&gt;)"
 			<manifest-digest sha256="09af6a9384ea2fb4076baf4e9d156eac0b5facf00be34ea38a276100748d5465"/>
 			<archive href="http://gfxmonk.net/dist/0install/0path/0path-0.2.8.tgz" size="2966"/>
 		</implementation>
+		<implementation id="sha1new=516b2f7c2fde08d8652724f6a7f85b6bd3292221" released="2012-04-28" version="0.2.9">
+			<manifest-digest sha256="f06252ac878b99fd441122b0179fc8825cb9f51cdb2fa6cd01aefb47bb94637f"/>
+			<archive href="http://gfxmonk.net/dist/0install/0path/0path-0.2.9.tgz" size="2976"/>
+		</implementation>
 	</group>
 </interface>
