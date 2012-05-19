@@ -50,12 +50,15 @@ def main():
 	opts.environment = args[0] if args else None
 	VERBOSE = opts.verbose
 
-	if not ("://" in opts.url or opts.url.endswith(".xml")):
-		try:
-			url = check_output(['0alias', '-r', opts.url])
-			opts.url = url.strip()
-		except CommandError, e:
-			puts("warn: %s" % (e,))
+	if not ("://" in opts.url):
+		if os.path.exists(opts.url):
+			opts.url = os.path.abspath(opts.url)
+		else:
+			try:
+				url = check_output(['0alias', '-r', opts.url])
+				opts.url = url.strip()
+			except CommandError, e:
+				puts("warn: %s" % (e,))
 
 	command = opts.command or ''
 
@@ -168,7 +171,7 @@ def backup_original_values(key, old, new):
 		return
 	backup_key = (ORIG_PREFIX + key)
 	if backup_key not in os.environ:
-		verbose("saving originval value of $%s (%s) in $%s" % (key, old or '', backup_key))
+		verbose("saving original value of $%s (%s) in $%s" % (key, old or '', backup_key))
 		os.environ[backup_key] = old or ''
 
 def run_shell(sh):
