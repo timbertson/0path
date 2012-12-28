@@ -6,6 +6,18 @@
 	<homepage>https://github.com/gfxmonk/0path</homepage>
 	<publish xmlns="http://gfxmonk.net/dist/0install" mode="0tools"/>
 	<description>
+DEPRECATED
+----------
+
+0path is lacking some features required for newer versionf of 0install,
+and is generally a fragile way to go about this sort of thing.
+Please consider using the newer
+[0env](http://gfxmonk.net/dist/0install/0env.xml) instead.
+
+
+-----
+
+
 0path is a utility for making the contents of a zero install feed
 (including its dependencies) active in your current shell session,
 as if the library or application were installed globally.
